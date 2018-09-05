@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'flatwave';
+  src: url('flatwave.woff') format('woff'), url('flatwave.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'flatwave-body';
+  src: url('flatwave-body.ttf') format('truetype');
+}
+
+* {
+  font-family: flatwave-body, arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  overflow: auto;
+}
+
+body {
+  background-image: linear-gradient(#ee306b, #f47a49);
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.text {
+  top: 35%;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-family: flatwave, arial, sans-serif;
+  font-size: 4em;
+}
+
+h2 {
+  font-family: flatwave-body, arial, sans-serif;
+  font-size: 2em;
+}
+
+.logomark {
+  background-color: #ffffff;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  left: calc(50% - 100px);
+  margin-bottom: 40px;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 10px;
+}

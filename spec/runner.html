@@ -1,0 +1,21 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Price calculator test suite</title>
+	<link rel="stylesheet" href="../assets/libs/mocha.css" />
+</head>
+<body>
+  <h1>Price calculator test suite</h1>
+  <div id="mocha"></div>
+	<script src="../assets/libs/expect.js"></script>
+	<script src="../assets/libs/mocha.js"></script>
+
+	<script src="../src/price-calculator.js"></script>
+
+	<script>mocha.setup('bdd')</script>
+	<script src="price-calculator.specs.js"></script>
+	<script>
+		mocha.run();
+	</script>
+</body>
+</html>

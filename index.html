@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Flatwave - JavaScript exercise</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <script src="src/price-calculator.js"></script>
+  </head>
+  <body>
+    <object class="logomark" type="image/svg+xml" data="./assets/logomark.svg"></object>
+    <div class="text">
+      <h1>Flatwave JavaScript exercise!</h1>
+      <div class="module-info">
+        <div>
+          <button type="button" onclick="PriceCalculator.printName(document.querySelector('.nameInfo'))">Print module name!</button>
+          <span class="nameInfo"></span>
+        </div>
+        <div>
+          <button type="button" onclick="PriceCalculator.calcFactorial(5)">Calc factorial</button>
+          <span class="factorial"></span>
+        </div>
+      </div>
+      <h2>Calculated prices:</h2>
+      <div class="price-container"></div>
+    </div>
+    <script>
+      (function () {
+        "use strict";
+
+        var priceDetails = [{
+          userType: 1,
+          productType: 0,
+          price: 100,
+          publishedDate: new Date()
+        }, {
+          userType: 0,
+          productType: 0,
+          price: 100,
+          publishedDate: new Date()
+        }, {
+          userType: 1,
+          productType: 0,
+          price: 50,
+          publishedDate: new Date()
+        }],
+        priceDetial,
+        finalPrices = [],
+        i;
+
+        for (i = 0; i < priceDetails.length; i += 1) {
+          priceDetial = priceDetails[i];
+          finalPrices.push(
+            PriceCalculator.calculatePrice(
+              priceDetial.userType,
+              priceDetial.productType,
+              priceDetial.price,
+              priceDetial.publishedDate
+            )
+          );
+        }
+
+        PriceCalculator.displayPrices(finalPrices);
+      }());
+    </script>
+  </body>
+</html>
