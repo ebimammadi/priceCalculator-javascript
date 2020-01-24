@@ -11,11 +11,11 @@
       <h1>Flatwave JavaScript exercise!</h1>
       <div class="module-info">
         <div>
-          <button type="button" onclick="PriceCalculator.printName(document.querySelector('.nameInfo'))">Print module name!</button>
+          <button type="button" onclick="priceCalculator.printModuleName(document.querySelector('.nameInfo'))">Print module name!</button>
           <span class="nameInfo"></span>
         </div>
         <div>
-          <button type="button" onclick="PriceCalculator.calcFactorial(5)">Calc factorial</button>
+          <button type="button" onclick="priceCalculator.calcFactorial(5)">Calc factorial</button>
           <span class="factorial"></span>
         </div>
       </div>
@@ -23,10 +23,9 @@
       <div class="price-container"></div>
     </div>
     <script>
-      (function () {
-        "use strict";
+      const priceCalculator = new PriceCalculator()
 
-        var priceDetails = [{
+      const priceDetails = [{
           userType: 1,
           productType: 0,
           price: 100,
@@ -42,24 +41,20 @@
           price: 50,
           publishedDate: new Date()
         }],
-        priceDetial,
-        finalPrices = [],
-        i;
+        finalPrices = [];
 
-        for (i = 0; i < priceDetails.length; i += 1) {
-          priceDetial = priceDetails[i];
-          finalPrices.push(
-            PriceCalculator.calculatePrice(
-              priceDetial.userType,
-              priceDetial.productType,
-              priceDetial.price,
-              priceDetial.publishedDate
-            )
-          );
+        for (let i = 0; i < priceDetails.length; i += 1) {
+            finalPrices.push(
+              priceCalculator.calculatePrice(
+                priceDetails[i].userType,
+                priceDetails[i].productType,
+                priceDetails[i].price,
+                priceDetails[i].publishedDate
+              )
+            );
         }
 
-        PriceCalculator.displayPrices(finalPrices);
-      }());
+        priceCalculator.displayPrices(finalPrices);
     </script>
   </body>
 </html>
