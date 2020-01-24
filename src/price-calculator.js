@@ -1,118 +1,98 @@
 /**
- * Bootstraps PriceCalculator by exposing its public API to provided context.
- * @param {Object} context Context to add module to
+ * Class PriceCalculator Module
+ * I revised the ES5 code to ES6+,
+ * This class can easily be imported in any context
  */
-(function (context) {
-  "use strict";
-
+class PriceCalculator {
   /**
-   * Returns PriceCalculator's public API.
-   * @return {Object} Public API
+   * Creates the priceCalculator
    */
-  function priceCalculator() {
-    var moduleInfo = {
-      name: "Price Calculator",
-
-      /**
-       * Prints name of this module.
-       * @param {Element} span DOM-lement to print name to
-       */
-      printName: function (span) {
-        span.textContent = "Will print module name in 3000ms: ";
-
-        setTimeout(function timeoutHandler() {
-          span.textContent += "> " + this.name;
-        }, 3000);
-      }
-    };
-
-    // userType, 0 = normal, 1 = company
-    // productType, 0 = new product, 1 = old product
-    // price, the price of the product
-    var calculatePrice = function (userType, productType, price, publishedDate) {
-      try {
-        switch (userType) {
-        case 0: // normal
-          if (productType == 0) { // new product
-            var enddateDiscount = 0;
-            if (publishedDate.toDateString() == new Date().toDateString()) enddateDiscount = 10;
-
-            return price + 25 - enddateDiscount;
-          } else if (productType == 1) { // old product
-            return price + 35 - 0;
-          }
-          break;
-        case 1: // company
-          if (productType == 0) { // new product
-            if (publishedDate.toDateString() === new Date().toDateString()) {
-                return price + 25 - 15;// Enddate discount and company discount
-            }
-
-            return price + 25 - 5;// Only company discount
-          } else if (productType == 1) { // old product
-            return price + 35 - 5;
-          }
-          break;
-        }
-      } catch (ex) {
-        console.log(ex);
-      }
-      return 0;
-    }
-
-    /**
-     * Generates list of calculated prices.
-     * @param {Element} priceContainer DOM-lement list prices in
-     * @param {Array.<Number>} priceContainer List of prices to display
-     */
-    function generateList(priceContainer, prices) {
-      var DELAY = 1000,
-          price,
-          i;
-
-      for (i = 0; i < prices.length; i += 1) {
-        price = prices[i];
-
-        setTimeout(function () {
-          var paragraph = document.createElement("p");
-          paragraph.innerHTML = "Calculated price for item #" + i + " is: " + price;
-          priceContainer.appendChild(paragraph);
-        }, DELAY + (DELAY * i));
-      }
-    }
-
-    /**
-     * Recursively calculates factorial value.
-     * @param {Integer} value Value to calculate factorial of
-     * @return {Integer} Factorial value
-     */
-    function getFactorial(value) {
-      // TODO: Write function body that recursively calculates factorial of provided value
-    }
-
-    // Public API
-    return {
-      printName: moduleInfo.printName,
-      calculatePrice: calculatePrice,
-      displayPrices: function (prices) {
-        generateList(document.querySelector(".price-container"), prices);
-      },
-
-      /**
-       * Calculates factorial value.
-       * @param {Integer} value Value to calculate factorial of
-       */
-      calcFactorial: function (value) {
-        var factorialText = "";
-
-        for (var i = 0; i < value; i += 1) {
-          factorialText += (i + 1) + ((i + 1 < value) ? "*" : "");
-        }
-
-        document.querySelector('.factorial').textContent = "Factorial of !" + value + " (" + factorialText + ") = " + getFactorial(value);
-      }
-    };
+  constructor() {
+    this.moduleName = "Price Calculator" //the moduleName
   }
 
-  context.PriceCalculator = priceCalculator();
-}(window));
+  /**
+   * Prints name of this Module
+   * @param {Element} span DOM-element to print name to
+   */
+  printModuleName(span) {
+    span.textContent = "Will print module name in 3000ms: ";
+    setTimeout( () => {
+      span.textContent += "> " + this.moduleName
+    }, 3000)
+  }
+
+  /**
+   * Recursive Factorial function n! = n*(n-1)*...*3*2*1
+   * @param {Integer} value is an integer number
+   * @return {Integer}
+   */
+  getFactorial(value) {
+    //TODO: Write function body that recursively calculates factorial of provided value
+    if (value == 1) return 1;
+    return value * this.getFactorial(value-1)
+  }
+
+  /**
+   * Prints the Factorial to the content
+   * @param value is an integer number
+   */
+  calcFactorial(value) {
+    let factorialText = "";
+    //revised to 5*4*3*2*1 instead of previous version 1*2*3*4*5 ;)
+    for (let i = value; i > 0; i -= 1) {
+      factorialText += i + ((i > 1) ? "*" : "");
+    }
+    document.querySelector('.factorial').textContent = "Factorial of " + value
+      + "! = (" + factorialText + ") = " + this.getFactorial(value);
+  }
+
+  /**
+   * Calculates the Final price the Factorial to the context
+   * @param {Integer} userType:  0 = normal, 1 = company
+   * @param {Integer} productType: 0 = new product, 1 = old product
+   * @param {Integer} price is the raw price of the product
+   * @param {Date} publishedDate is the publishing day of product
+   * @return {Integer}
+   */
+  calculatePrice(userType, productType, price, publishedDate) {
+    try {
+      const typeFee = (productType === 0)? 25 : 35;
+      let rebate = 0;
+      if ( (productType === 0) && (publishedDate.toDateString() === new Date().toDateString()) ) rebate += 10;
+      if (userType === 1 ) rebate += 5;
+      return price + typeFee - rebate;
+    } catch (ex) {
+      console.log(ex);
+    }
+    return 0;
+  }
+
+  /**
+   * Generates the List for the given Prices
+   * @param {Element} priceContainer is a DOM-element
+   * @param {Array.<Number>} prices is an array of the calculated prices
+   */
+  generateList(priceContainer, prices) {
+    let DELAY = 1000;
+    let price ;
+
+    for (let i = 0; i < prices.length; i += 1) {
+      price = prices[i];
+      //I send (i & price) as variables for the callback using the es6 arrow function
+      setTimeout( (i,price) => {
+        let paragraph = document.createElement("p");
+        paragraph.innerHTML = "Calculated price for item #" + i + " is: " + price;
+        priceContainer.appendChild(paragraph);
+      },  (DELAY * (i+1)),i+1,price);
+    }
+  }
+
+  /**
+   * Displays the prices to the context
+   * @param {Array.<Number>} prices is an array of the calculated prices
+   */
+  displayPrices(prices){
+    this.generateList(document.querySelector(".price-container"), prices)
+  }
+}
