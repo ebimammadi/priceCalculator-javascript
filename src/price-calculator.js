@@ -8,7 +8,31 @@ class PriceCalculator {
    * Creates the priceCalculator
    */
   constructor() {
-    this.moduleName = "Price Calculator" //the moduleName
+    this.moduleName = "Price Calculator"
+
+    this.users = [
+      {
+        type: 0,
+        typeName:"normal"
+      },
+      {
+        type: 1,
+        typeName:"company"
+      }
+    ];
+
+    this.products = [
+      {
+        type: 0,
+        typeName: "new",
+        addedFee: 25
+      },
+      {
+        type: 1,
+        typeName: "old",
+        addedFee: 35
+      }
+    ];
   }
 
   /**
@@ -52,7 +76,7 @@ class PriceCalculator {
   }
 
   /**
-   * Calculates the Final price the Factorial to the context
+   * Calculates the Final price
    * @param {Integer} userType:  0 = normal, 1 = company
    * @param {Integer} productType: 0 = new product, 1 = old product
    * @param {Integer} price is the raw price of the product
@@ -61,18 +85,15 @@ class PriceCalculator {
    */
   calculatePrice(userType, productType, price, publishedDate) {
     try {
-      // validation for the business rules!
-      if (userType!==0 && userType!==1) throw "Not a valid userType";
-      if (productType!==0 && productType!==1) throw "Not a valid productType";
+
       if (price <= 0 ) throw "Not a valid price";
       if (publishedDate > new Date()) throw "Not a valid Date!";
 
-      // business rules
-      let rebate = 0;
-      const typeFee = (productType === 0) ? 25 : 35; //typeFee: based on the productType
-      if (userType === 1 ) rebate += 5; //company userType rebate
-      if ( (productType === 0) && this.comparePublishedDate(publishedDate)) rebate += 10; //same-date rebate for new products only
-      return price + typeFee - rebate;
+      const product = this.products.find(product => productType === product.type );
+      product.rawPrice = price;
+      const user =this.users.find(user => userType === user.type );
+
+      return product.rawPrice + product.addedFee - this.calculateRebate(user,product,publishedDate);
 
     } catch (ex) {
       console.log(ex);
@@ -85,9 +106,23 @@ class PriceCalculator {
    * @param {Date} publishedDate is the publishing day of product
    * @return {boolean}
    */
-  comparePublishedDate(publishedDate) {
+  sameDate(publishedDate) {
     if (publishedDate.toDateString() === new Date().toDateString()) return true;
     return false
+  }
+
+  /**
+   * Calculates the Rebate price
+   * @param {Object} user
+   * @param {Object} product
+   * @param {Date} publishedDate is the publishing day of product
+   * @return {Integer}
+   */
+  calculateRebate(user,product,publishedDate){
+    let rebate = 0;
+    if (user.typeName === "company") rebate += 5;
+    if ( (product.typeName === "new") && this.sameDate(publishedDate)) rebate += 10;
+    return rebate;
   }
 
   /**

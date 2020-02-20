@@ -1,125 +1,120 @@
 const priceCalculator = new PriceCalculator();
+const testCases = [
+  {
+    userType : 0,
+    productType: 0,
+    price: 50,
+    publishedDate: new Date(),
+    expected: 65,
+    caption: "New product, for a Normal user, published today"
+  },
+  {
+    userType : 0,
+    productType: 0,
+    price: 50,
+    publishedDate: new Date("2020-01-01"),
+    expected: 75,
+    caption: "New product, for a Normal user, published earlier"
+  },
+  {
+    userType : 0,
+    productType: 1,
+    price: 50,
+    publishedDate: new Date(),
+    expected: 85,
+    caption: "Old product, for a Normal user, published today"
+  },
+  {
+    userType : 0,
+    productType: 1,
+    price: 50,
+    publishedDate: new Date("2020-01-01"),
+    expected: 85,
+    caption: "Old product, for a Normal user, published earlier"
+  },
+  {
+    userType : 1,
+    productType: 0,
+    price: 50,
+    publishedDate: new Date(),
+    expected: 60,
+    caption: "New product, for a Company, published today"
+  },
+  {
+    userType : 1,
+    productType: 0,
+    price: 50,
+    publishedDate: new Date("2020-01-01"),
+    expected: 70,
+    caption: "New product, for a Company, published earlier"
+  },
+  {
+    userType : 1,
+    productType: 1,
+    price: 50,
+    publishedDate: new Date(),
+    expected: 80,
+    caption: "Old product, for a Company, published today"
+  },
+  {
+    userType : 1,
+    productType: 1,
+    price: 50,
+    publishedDate: new Date("2020-01-01"),
+    expected: 80,
+    caption: "Old product, for a Company, published earlier"
+  },
+  ,
+  {
+    userType : 22,
+    productType:0,
+    price: 50,
+    publishedDate: new Date("2020-01-01"),
+    expected: 0,
+    caption: "Negative test: Invalid userType"
+  },
+  {
+    userType : 22,
+    productType:0,
+    price: 50,
+    publishedDate: new Date("2020-01-01"),
+    expected: 0,
+    caption: "Negative test: Invalid userType"
+  },
+  {
+    userType : 0,
+    productType: -1,
+    price: 50,
+    publishedDate: new Date(),
+    expected: 0,
+    caption: "Negative test: Invalid productType"
+  },
+  {
+    userType : 0,
+    productType: 1,
+    price: -500,
+    publishedDate: new Date(),
+    expected: 0,
+    caption: "Negative test: Invalid Price"
+  },
+  {
+    userType : 0,
+    productType: 1,
+    price: -500,
+    publishedDate: new Date("2050-01-01"),
+    expected: 0,
+    caption: "Negative test: (published date: 2050-01-01)! Published date can\\'t be after calculation date"
+  }
+];
+describe('price calculator', ()=> {
+  testCases.forEach(testCase => {
+    it(testCase.caption, () => {
+      expect(testCase.expected).to.equal(
+          priceCalculator.calculatePrice(testCase.userType, testCase.productType, testCase.price, testCase.publishedDate)
+      );
+    })
+  })
 
-describe('price calculator', ()=>{
-  it('Case 1: Normal user, New product, Same Date, price=50, Expected = 65', ()=> {
-    const userType = 0;
-    const productType = 0;
-    const price = 50;
-    const publishedDate = new Date();
-    const expected = 65;
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Case 2: Normal user, New product, Previous Date, price=50, Expected = 75', ()=> {
-    const userType = 0;
-    const productType = 0;
-    const price = 50;
-    const publishedDate = new Date("2010-03-25");
-    const expected = 75;
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Case 3: Normal user, Old product, Same Date, price=50, Expected = 85', ()=> {
-    const userType = 0;
-    const productType = 1;
-    const price = 50;
-    const publishedDate = new Date();
-    const expected = 85;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Case 4: Normal user, Old product, Previous Published Date, price=50, Expected = 85', ()=> {
-    const userType = 0;
-    const productType = 1;
-    const price = 50;
-    const publishedDate = new Date("2020-01-01");
-    const expected = 85;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Case 5: Company user, New product, Same Date, price=50, Expected = 60', ()=> {
-    const userType = 1;
-    const productType = 0;
-    const price = 50;
-    const publishedDate = new Date();
-    const expected = 60;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Case 6: Company user, New product, Previous Date, price=50, Expected = 70', ()=> {
-    const userType = 1;
-    const productType = 0;
-    const price = 50;
-    const publishedDate = new Date("2013-05-27");
-    const expected = 70;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Case 7: Company user, Old product, Same Date, price=50, Expected = 80', ()=> {
-    const userType = 1;
-    const productType = 1;
-    const price = 50;
-    const publishedDate = new Date();
-    const expected = 80;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Case 8: Company user, Old product, Same Date, price=50, Expected = 80', ()=> {
-    const userType = 1;
-    const productType = 1;
-    const price = 50;
-    const publishedDate = new Date();
-    const expected = 80;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-
-  it('Negative test 1: Invalid userType, Expected = 0, check console.log', () => {
-    const userType = 2;
-    const productType = 0;
-    const price = 50;
-    const publishedDate = new Date("2050-01-01");
-    const expected = 0;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Negative test 2: Invalid productType, Expected = 0', () => {
-    const userType = 0;
-    const productType = -1;
-    const price = 50;
-    const publishedDate = new Date();
-    const expected = 0;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Negative test 3: Invalid price, Expected = 0', () => {
-    const userType = 0;
-    const productType = 1;
-    const price = -100;
-    const publishedDate = new Date();
-    const expected = 0;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
-  it('Negative test 4: (published date: 2050-01-01)! Published date can\'t be after calculation date), Expected = 0', () => {
-    const userType = 1;
-    const productType = 0;
-    const price = 50;
-    const publishedDate = new Date("2050-01-01");
-    const expected = 0;
-    const priceCalculator = new PriceCalculator();
-    const actual = priceCalculator.calculatePrice(userType, productType, price, publishedDate);
-    expect(expected).to.equal(actual);
-  });
 });
 
 describe('Factorial calculator', function(){
