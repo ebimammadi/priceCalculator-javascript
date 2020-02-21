@@ -41,8 +41,10 @@ class PriceCalculator {
    */
   printModuleName(span) {
     span.textContent = "Will print module name in 3000ms: ";
+    document.getElementById("moduleNameButton").disabled = true;
     setTimeout( () => {
       span.textContent += "> " + this.moduleName
+      document.getElementById("moduleNameButton").disabled = false;
     }, 3000)
   }
 
@@ -92,7 +94,6 @@ class PriceCalculator {
       const product = this.products.find(product => productType === product.type );
       product.rawPrice = price;
       const user =this.users.find(user => userType === user.type );
-
       return product.rawPrice + product.addedFee - this.calculateRebate(user,product,publishedDate);
 
     } catch (ex) {
