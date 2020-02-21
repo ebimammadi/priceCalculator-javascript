@@ -6,7 +6,7 @@ const testCases = [
     price: 50,
     publishedDate: new Date(),
     expected: 65,
-    caption: "New product, for a Normal user, published today"
+    caption: "New product (+25 SEK Type Fee), for a Normal user, published today (New product same date: -10 SEK Rebate) => 65 SEK"
   },
   {
     userType : 0,
@@ -14,7 +14,7 @@ const testCases = [
     price: 50,
     publishedDate: new Date("2020-01-01"),
     expected: 75,
-    caption: "New product, for a Normal user, published earlier"
+    caption: "New product (+25 SEK Type Fee), for a Normal user, published earlier (No rebate) => 75 SEK"
   },
   {
     userType : 0,
@@ -22,7 +22,7 @@ const testCases = [
     price: 50,
     publishedDate: new Date(),
     expected: 85,
-    caption: "Old product, for a Normal user, published today"
+    caption: "Old product (+35 SEK Type Fee), for a Normal user, published today (No rebate) => 85 SEK"
   },
   {
     userType : 0,
@@ -30,7 +30,7 @@ const testCases = [
     price: 50,
     publishedDate: new Date("2020-01-01"),
     expected: 85,
-    caption: "Old product, for a Normal user, published earlier"
+    caption: "Old product (+35 SEK Type Fee), for a Normal user, published earlier (No rebate) => 85 SEK"
   },
   {
     userType : 1,
@@ -38,7 +38,7 @@ const testCases = [
     price: 50,
     publishedDate: new Date(),
     expected: 60,
-    caption: "New product, for a Company, published today"
+    caption: "New product (+25 SEK Type Fee), for a Company (-5 SEK Rebate), published today (New product same date:-10 SEK Rebate) => 60 SEK"
   },
   {
     userType : 1,
@@ -46,7 +46,7 @@ const testCases = [
     price: 50,
     publishedDate: new Date("2020-01-01"),
     expected: 70,
-    caption: "New product, for a Company, published earlier"
+    caption: "New product (+25 SEK Type Fee), for a Company (-5 SEK Rebate), published earlier (No date rebate) => 70 SEK"
   },
   {
     userType : 1,
@@ -54,7 +54,7 @@ const testCases = [
     price: 50,
     publishedDate: new Date(),
     expected: 80,
-    caption: "Old product, for a Company, published today"
+    caption: "Old product (+35 SEK Type Fee), for a Company (-5 SEK Rebate), published today (No date rebate) => 80 SEK"
   },
   {
     userType : 1,
@@ -62,32 +62,23 @@ const testCases = [
     price: 50,
     publishedDate: new Date("2020-01-01"),
     expected: 80,
-    caption: "Old product, for a Company, published earlier"
+    caption: "Old product (+35 SEK Type Fee), for a Company (-5 SEK Rebate), published earlier (No date rebate) => 80 SEK"
   },
-  ,
   {
-    userType : 22,
+    userType : 3,
     productType:0,
     price: 50,
     publishedDate: new Date("2020-01-01"),
     expected: 0,
-    caption: "Negative test: Invalid userType"
-  },
-  {
-    userType : 22,
-    productType:0,
-    price: 50,
-    publishedDate: new Date("2020-01-01"),
-    expected: 0,
-    caption: "Negative test: Invalid userType"
+    caption: "Negative test: Invalid userType 3!"
   },
   {
     userType : 0,
-    productType: -1,
+    productType: 5,
     price: 50,
     publishedDate: new Date(),
     expected: 0,
-    caption: "Negative test: Invalid productType"
+    caption: "Negative test: Invalid productType 5!"
   },
   {
     userType : 0,
@@ -95,7 +86,7 @@ const testCases = [
     price: -500,
     publishedDate: new Date(),
     expected: 0,
-    caption: "Negative test: Invalid Price"
+    caption: "Negative test: Invalid Price (-500 SEK!)"
   },
   {
     userType : 0,
@@ -106,6 +97,7 @@ const testCases = [
     caption: "Negative test: (published date: 2050-01-01)! Published date can\\'t be after calculation date"
   }
 ];
+
 describe('price calculator', ()=> {
   testCases.forEach(testCase => {
     it(testCase.caption, () => {
