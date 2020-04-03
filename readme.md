@@ -1,4 +1,4 @@
-# Flatwave web development exercise
+# Readability ES6+ web development exercise
 __The goal of this exercise is to complete all tasks listed in the *roadmap* below.__
 
 The *roadmap* is for the *PriceCalculator project* which you are part of; unfortunetly all your colleagues are gone and you are the only one left to finish off the project =)
